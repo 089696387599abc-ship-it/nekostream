@@ -14,8 +14,9 @@ export default async function CompletedPage() {
   let completedItems = [];
 
   try {
-    const data = await fetchCraftvel('/services/anime/completed?page=1&limit=36');
-    completedItems = data.items || [];
+    const res = await fetchCraftvel('/v1/anime/completed?page=1&limit=36');
+    const d = res?.data || res || {};
+    completedItems = d.items || (Array.isArray(d) ? d : []);
   } catch (error) {
     console.error('Error fetching completed:', error);
   }

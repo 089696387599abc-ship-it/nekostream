@@ -31,7 +31,40 @@ export default function VideoPlayer({ streamData, episodeSlug }) {
   const [energyBlocked, setEnergyBlocked] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
 
-  const streams = streamData?.streams || {};
+  // Mendukung resolusi dari Craftvel v1 (streamData.resolutions) maupun legacy format (streamData.streams)
+  const rawResolutions = streamData?.resolutions || streamData?.streams || {};
+  const base480 = rawResolutions['480']?.url || null;
+  const base720 = rawResolutions['720']?.url || null;
+  const direct360 = rawResolutions['360']?.url || null;
+
+  // Resolusi 360p fallback ke 480p atau 720p jika server upstream menandai 360 unavailable
+  const streams = {
+    '360': {
+      available: Boolean(direct360 || base480 || base720),
+      url: direct360 || base480 || base720,
+      isFallback: !direct360 && Boolean(base480 || base720),
+      locked: false,
+    },
+    '480': {
+      available: Boolean(base480 || base720),
+      url: base480 || base720,
+      isFallback: !base480 && Boolean(base720),
+      locked: false,
+    },
+    '720': {
+      available: Boolean(base720 || base480),
+      url: base720 || base480,
+      isFallback: false,
+      locked: false,
+    },
+    '1080': {
+      available: false,
+      url: null,
+      locked: true,
+      required_plan: 'pro',
+    },
+  };
+
   const downloads = streamData?.downloads || [];
   const anime = streamData?.anime || {};
   const episode = streamData?.episode || {};
@@ -41,16 +74,73 @@ export default function VideoPlayer({ streamData, episodeSlug }) {
 
   const isAlreadyWatched = watchedToday.includes(episodeSlug);
 
-  // Tentukan kualitas awal yang tersedia
+  // Tentukan kualitas awal yang tersedia (utamakan 720, 480, lalu 360)
   useEffect(() => {
-    if (streams['720']?.available && streams['720']?.url && !streams['720']?.locked) {
+    if (streams['720']?.available && streams['720']?.url) {
       setSelectedQuality('720');
-    } else if (streams['480']?.available && streams['480']?.url && !streams['480']?.locked) {
+    } else if (streams['480']?.available && streams['480']?.url) {
       setSelectedQuality('480');
-    } else if (streams['360']?.available && streams['360']?.url && !streams['360']?.locked) {
+    } else if (streams['360']?.available && streams['360']?.url) {
       setSelectedQuality('360');
     }
   }, [streamData]);
+
+  const [isTheaterMode, setIsTheaterMode] = useState(false);
+
+  // Resume waktu tonton terakhir dari localStorage
+  useEffect(() => {
+    if (!episodeSlug) return;
+    try {
+      const savedTime = localStorage.getItem(`progress_${episodeSlug}`);
+      if (savedTime && videoRef.current) {
+        const t = parseFloat(savedTime);
+        if (!isNaN(t) && t > 5) {
+          videoRef.current.currentTime = t;
+        }
+      }
+    } catch (_) {}
+  }, [episodeSlug]);
+
+  const handleTimeUpdate = () => {
+    if (!videoRef.current || !episodeSlug) return;
+    const cur = videoRef.current.currentTime;
+    try {
+      localStorage.setItem(`progress_${episodeSlug}`, cur.toString());
+    } catch (_) {}
+  };
+
+  // Keyboard shortcut listener (Space = play/pause, ArrowLeft/Right = 10s skip, F = Fullscreen)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+      if (!videoRef.current) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (videoRef.current.paused) {
+          handlePlayAttempt();
+        } else {
+          videoRef.current.pause();
+        }
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        videoRef.current.currentTime = Math.min(videoRef.current.duration || 99999, videoRef.current.currentTime + 10);
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        videoRef.current.currentTime = Math.max(0, videoRef.current.currentTime - 10);
+      } else if (e.code === 'KeyF') {
+        e.preventDefault();
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else if (videoRef.current.requestFullscreen) {
+          videoRef.current.requestFullscreen();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [hasEnergy, isAlreadyWatched]);
 
   // Handle Play dengan Gating Energi
   const handlePlayAttempt = () => {
@@ -107,7 +197,7 @@ export default function VideoPlayer({ streamData, episodeSlug }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className={`space-y-6 transition-all duration-300 ${isTheaterMode ? 'max-w-7xl mx-auto' : ''}`}>
       {/* Top Navigation & Title Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 glass-panel p-4 rounded-xl border border-slate-800">
         <div>
@@ -124,17 +214,32 @@ export default function VideoPlayer({ streamData, episodeSlug }) {
 
         {/* Energy Status Tag */}
         <div className="flex items-center gap-2">
-          <div
-            className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 border ${
-              isAlreadyWatched
-                ? 'bg-emerald-950/60 text-emerald-300 border-emerald-800/80'
-                : 'bg-violet-950/60 text-violet-300 border-violet-800/80'
-            }`}
-          >
-            <Zap className="w-3.5 h-3.5 fill-current text-amber-400" />
-            <span>
-              {isAlreadyWatched ? 'Sudah Ditonton (Gratis)' : `Energi: ${energy}/12`}
-            </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsTheaterMode(!isTheaterMode)}
+              type="button"
+              className={`px-3 py-1 rounded-lg text-xs font-semibold border transition-all ${
+                isTheaterMode
+                  ? 'bg-violet-600 text-white border-violet-500 shadow-md shadow-violet-600/30'
+                  : 'bg-slate-800 text-slate-300 border-slate-700 hover:text-white'
+              }`}
+              title="Mode Layar Lebar (Theater Mode)"
+            >
+              {isTheaterMode ? 'Mode Normal' : 'Mode Bioskop'}
+            </button>
+
+            <div
+              className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 border ${
+                isAlreadyWatched
+                  ? 'bg-emerald-950/60 text-emerald-300 border-emerald-800/80'
+                  : 'bg-violet-950/60 text-violet-300 border-violet-800/80'
+              }`}
+            >
+              <Zap className="w-3.5 h-3.5 fill-current text-amber-400" />
+              <span>
+                {isAlreadyWatched ? 'Sudah Ditonton (Gratis)' : `Energi: ${energy}/12`}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -172,6 +277,7 @@ export default function VideoPlayer({ streamData, episodeSlug }) {
             preload="metadata"
             onPlay={handlePlayAttempt}
             onPause={handlePause}
+            onTimeUpdate={handleTimeUpdate}
             className="w-full h-full object-contain"
           >
             Browser Anda tidak mendukung pemutar video HTML5.
@@ -218,7 +324,15 @@ export default function VideoPlayer({ streamData, episodeSlug }) {
                         ? 'bg-slate-900/50 text-slate-600 border border-slate-800 cursor-not-allowed'
                         : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                     }`}
-                    title={isLocked ? 'Khusus Paket Pro' : !isAvail ? 'Tidak tersedia' : `Ganti ke ${res}p`}
+                    title={
+                      isLocked
+                        ? 'Khusus Paket Pro'
+                        : !isAvail
+                        ? 'Tidak tersedia'
+                        : s?.isFallback
+                        ? `Putar ${res}p (Dioptimasi dari resolusi tersedia)`
+                        : `Ganti ke ${res}p`
+                    }
                   >
                     {res === '1080' ? '1080p FHD (Pro)' : `${res}p`}
                   </button>

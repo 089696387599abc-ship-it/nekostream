@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { fetchCraftvel, normalizePosterUrl } from '@/lib/craftvel';
 import { formatScore } from '@/lib/utils';
 import { Star, Play, Clock, Tv, Calendar, Layers, ArrowLeft } from 'lucide-react';
+import BookmarkButton from '@/components/BookmarkButton';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -30,16 +31,26 @@ export default async function AnimeDetailPage({ params }) {
   let anime = null;
 
   try {
-    anime = await fetchCraftvel(`/services/anime/${slug}`);
+    const res = await fetchCraftvel(`/v1/anime/${slug}`);
+    anime = res?.data || res;
   } catch (error) {
     notFound();
   }
 
   if (!anime) notFound();
 
+  // Pastikan episodes terisi (jika endpoint terpisah diperlukan)
+  let episodes = anime.episodes || [];
+  if (episodes.length === 0) {
+    try {
+      const epsRes = await fetchCraftvel(`/v1/anime/${slug}/episodes`);
+      const epsData = epsRes?.data || epsRes;
+      episodes = epsData?.items || (Array.isArray(epsData) ? epsData : []);
+    } catch (_) {}
+  }
+
   const poster = normalizePosterUrl(anime.poster_url);
   const score = formatScore(anime.rating);
-  const episodes = anime.episodes || [];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -103,6 +114,10 @@ export default async function AnimeDetailPage({ params }) {
               {anime.title_english && anime.title_english !== anime.title && (
                 <p className="text-sm text-slate-400 mt-1 italic">{anime.title_english}</p>
               )}
+
+              <div className="pt-3">
+                <BookmarkButton anime={anime} />
+              </div>
             </div>
 
             {/* Quick Metadata Grid */}
@@ -146,12 +161,13 @@ export default async function AnimeDetailPage({ params }) {
             {anime.genres && Array.isArray(anime.genres) && anime.genres.length > 0 && (
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-1.5 pt-1">
                 {anime.genres.map((genre) => (
-                  <span
+                  <Link
                     key={genre}
-                    className="px-2.5 py-1 rounded-lg text-xs bg-slate-800/80 text-slate-300 border border-slate-700 hover:border-violet-500 transition-colors"
+                    href={`/genres?g=${encodeURIComponent(genre)}`}
+                    className="px-2.5 py-1 rounded-lg text-xs bg-slate-800/80 text-violet-300 border border-slate-700 hover:border-violet-500 hover:bg-violet-950/40 transition-colors"
                   >
                     {genre}
-                  </span>
+                  </Link>
                 ))}
               </div>
             )}

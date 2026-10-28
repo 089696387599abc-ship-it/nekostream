@@ -4,19 +4,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api.craftvel.com',
+        hostname: '**',
       },
       {
-        protocol: 'https',
-        hostname: 'media.craftvel.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 's4.anilist.co',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.anilist.co',
+        protocol: 'http',
+        hostname: '**',
       },
     ],
   },

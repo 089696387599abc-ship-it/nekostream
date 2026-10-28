@@ -15,11 +15,27 @@ export default async function HomePage() {
   };
 
   try {
-    const data = await fetchCraftvel('/services/anime/home');
+    const res = await fetchCraftvel('/v1/anime/home');
+    const d = res?.data || res || {};
+
+    const ongoingList = Array.isArray(d.ongoing)
+      ? d.ongoing
+      : d.ongoing?.items || d.ongoing?.popular || [];
+
+    const completedList = Array.isArray(d.completed)
+      ? d.completed
+      : d.completed?.items || [];
+
+    const popularBanner = Array.isArray(d.popular_banner) && d.popular_banner.length > 0
+      ? d.popular_banner
+      : Array.isArray(d.popular_all)
+      ? d.popular_all.slice(0, 10)
+      : [];
+
     homeData = {
-      popular_banner: data.popular_banner || [],
-      ongoing: data.ongoing || [],
-      completed: data.completed || [],
+      popular_banner: popularBanner,
+      ongoing: ongoingList,
+      completed: completedList,
     };
   } catch (error) {
     console.error('Gagal memuat home data:', error.message);

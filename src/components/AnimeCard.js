@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Star, Play } from 'lucide-react';
+import { Star, Play, Tag } from 'lucide-react';
 import { normalizePosterUrl } from '@/lib/craftvel';
 import { formatScore } from '@/lib/utils';
+import animeGenresCache from '@/lib/anime-genres-cache.json';
 
 export default function AnimeCard({ anime }) {
   if (!anime) return null;
@@ -16,13 +17,22 @@ export default function AnimeCard({ anime }) {
     ? `${anime.episodes_count} Ep`
     : null;
 
+  // Ekstrak genres dari properti langsung atau fallback ke database genres cache
+  const rawGenres = anime.genres || anime.genre || animeGenresCache[anime.slug] || [];
+  const genreList = Array.isArray(rawGenres)
+    ? rawGenres
+    : typeof rawGenres === 'string'
+    ? rawGenres.split(',').map((g) => g.trim())
+    : [];
+  const displayGenres = genreList.slice(0, 2);
+
   return (
     <Link
       href={`/anime/${encodeURIComponent(anime.slug)}`}
       className="group relative flex flex-col rounded-xl overflow-hidden bg-[#12141f] border border-slate-800/80 hover:border-violet-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-950/30"
     >
       {/* Thumbnail Wrap */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900">
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900" style={{ position: 'relative' }}>
         <Image
           src={poster}
           alt={anime.title || 'Anime Poster'}
@@ -78,13 +88,30 @@ export default function AnimeCard({ anime }) {
 
       {/* Card Info */}
       <div className="p-3 flex-1 flex flex-col justify-between">
-        <h3
-          className="text-sm font-semibold text-slate-200 group-hover:text-violet-400 transition-colors line-clamp-2 leading-snug"
-          title={anime.title}
-        >
-          {anime.title}
-        </h3>
-        <div className="mt-2 flex items-center justify-between text-[11px] text-slate-400">
+        <div>
+          <h3
+            className="text-sm font-semibold text-slate-200 group-hover:text-violet-400 transition-colors line-clamp-2 leading-snug"
+            title={anime.title}
+          >
+            {anime.title}
+          </h3>
+
+          {/* Genre Badges */}
+          {displayGenres.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1">
+              {displayGenres.map((genre) => (
+                <span
+                  key={genre}
+                  className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-800/90 text-violet-300/90 border border-violet-900/40 group-hover:border-violet-700/50 transition-colors"
+                >
+                  {genre}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-2.5 pt-2 border-t border-slate-800/50 flex items-center justify-between text-[11px] text-slate-400">
           <span>{anime.released_year || anime.year || ''}</span>
           <span className="group-hover:translate-x-0.5 transition-transform text-violet-400 font-medium">
             Tonton &rarr;

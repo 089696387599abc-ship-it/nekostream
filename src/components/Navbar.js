@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Search, PlayCircle, Film, CheckCircle2, Bookmark, Flame } from 'lucide-react';
 import EnergyBadge from './EnergyBadge';
+import ApiQuotaModal from './ApiQuotaModal';
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,22 +45,36 @@ export default function Navbar() {
             <span>Beranda</span>
           </Link>
           <Link
+            href="/popular"
+            className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors flex items-center gap-1.5"
+          >
+            <Flame className="w-4 h-4 text-amber-400" />
+            <span>Populer</span>
+          </Link>
+          <Link
             href="/ongoing"
-            className="px-3.5 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors flex items-center gap-1.5"
           >
             <PlayCircle className="w-4 h-4 text-emerald-400" />
             <span>Ongoing</span>
           </Link>
           <Link
             href="/completed"
-            className="px-3.5 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors flex items-center gap-1.5"
           >
             <CheckCircle2 className="w-4 h-4 text-cyan-400" />
             <span>Tamat</span>
           </Link>
           <Link
+            href="/genres"
+            className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors flex items-center gap-1.5"
+          >
+            <Film className="w-4 h-4 text-fuchsia-400" />
+            <span>Genre</span>
+          </Link>
+          <Link
             href="/bookmarks"
-            className="px-3.5 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors flex items-center gap-1.5"
           >
             <Bookmark className="w-4 h-4 text-amber-400" />
             <span>Favorit</span>
@@ -87,6 +102,9 @@ export default function Navbar() {
           >
             <Search className="w-5 h-5" />
           </Link>
+
+          {/* API Quota Widget */}
+          <ApiQuotaModal />
 
           {/* Energy Quota Widget */}
           <EnergyBadge />

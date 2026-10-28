@@ -1,0 +1,292 @@
+/**
+ * Mock Fallback Data untuk NekoStream
+ * Digunakan sebagai fallback otomatis ketika Craftvel API key tidak valid atau server upstream sedang bermasalah.
+ */
+
+export const MOCK_POPULAR_BANNER = [
+  {
+    title: 'Solo Leveling Season 2: Arise from the Shadow',
+    title_english: 'Solo Leveling Season 2',
+    slug: 'solo-leveling-season-2',
+    rating: '8.95',
+    type: 'TV',
+    status: 'Ongoing',
+    year: '2025',
+    released_year: '2025',
+    studio: 'A-1 Pictures',
+    season: 'Winter',
+    poster_url: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80',
+    synopsis: 'Sung Jin-woo telah berevolusi dari pemburu terlemah menjadi Shadow Monarch yang disegani. Kini bayang-bayang ancaman baru dari Gate misterius menguji kekuatannya.',
+    latest_episode: '8',
+    episodes_count: 12,
+  },
+  {
+    title: 'Sousou no Frieren',
+    title_english: 'Frieren: Beyond Journey\'s End',
+    slug: 'sousou-no-frieren',
+    rating: '9.38',
+    type: 'TV',
+    status: 'Completed',
+    year: '2024',
+    released_year: '2024',
+    studio: 'Madhouse',
+    season: 'Fall',
+    poster_url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80',
+    synopsis: 'Petualangan sang penyihir elf Frieren setelah sang pahlawan Himmel meninggal dunia, mencari makna persahabatan dan waktu yang abadi.',
+    latest_episode: '28',
+    episodes_count: 28,
+  },
+  {
+    title: 'Jujutsu Kaisen: Shibuya Incident Arc',
+    title_english: 'Jujutsu Kaisen Season 2',
+    slug: 'jujutsu-kaisen-season-2',
+    rating: '8.82',
+    type: 'TV',
+    status: 'Completed',
+    year: '2023',
+    released_year: '2023',
+    studio: 'MAPPA',
+    season: 'Summer',
+    poster_url: 'https://images.unsplash.com/photo-1563089145-599997674d42?w=600&auto=format&fit=crop&q=80',
+    synopsis: 'Pertempuran akbar para penyihir jujutsu di stasiun Shibuya yang mengubah tatanan dunia kutukan selamanya.',
+    latest_episode: '23',
+    episodes_count: 23,
+  }
+];
+
+export const MOCK_ONGOING_ITEMS = [
+  {
+    title: 'Solo Leveling Season 2: Arise from the Shadow',
+    slug: 'solo-leveling-season-2',
+    rating: '8.95',
+    type: 'TV',
+    status: 'Ongoing',
+    released_year: '2025',
+    latest_episode: '8',
+    episodes_count: 12,
+    poster_url: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'One Piece (Egghead Arc)',
+    slug: 'one-piece',
+    rating: '8.92',
+    type: 'TV',
+    status: 'Ongoing',
+    released_year: '1999',
+    latest_episode: '1120',
+    episodes_count: 1120,
+    poster_url: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'Bleach: Thousand-Year Blood War - The Conflict',
+    slug: 'bleach-sennen-kessen-hen',
+    rating: '8.76',
+    type: 'TV',
+    status: 'Ongoing',
+    released_year: '2024',
+    latest_episode: '11',
+    episodes_count: 13,
+    poster_url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'Shangri-La Frontier Season 2',
+    slug: 'shangri-la-frontier-season-2',
+    rating: '8.15',
+    type: 'TV',
+    status: 'Ongoing',
+    released_year: '2024',
+    latest_episode: '14',
+    episodes_count: 25,
+    poster_url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'Re:Zero kara Hajimeru Isekai Seikatsu 3rd Season',
+    slug: 're-zero-season-3',
+    rating: '8.48',
+    type: 'TV',
+    status: 'Ongoing',
+    released_year: '2024',
+    latest_episode: '9',
+    episodes_count: 16,
+    poster_url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'Dandadan',
+    slug: 'dandadan',
+    rating: '8.54',
+    type: 'TV',
+    status: 'Ongoing',
+    released_year: '2024',
+    latest_episode: '12',
+    episodes_count: 12,
+    poster_url: 'https://images.unsplash.com/photo-1563089145-599997674d42?w=600&auto=format&fit=crop&q=80',
+  }
+];
+
+export const MOCK_COMPLETED_ITEMS = [
+  {
+    title: 'Sousou no Frieren',
+    slug: 'sousou-no-frieren',
+    rating: '9.38',
+    type: 'TV',
+    status: 'Completed',
+    released_year: '2024',
+    latest_episode: '28',
+    episodes_count: 28,
+    poster_url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'Jujutsu Kaisen: Shibuya Incident Arc',
+    slug: 'jujutsu-kaisen-season-2',
+    rating: '8.82',
+    type: 'TV',
+    status: 'Completed',
+    released_year: '2023',
+    latest_episode: '23',
+    episodes_count: 23,
+    poster_url: 'https://images.unsplash.com/photo-1563089145-599997674d42?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'Shingeki no Kyojin: The Final Season',
+    slug: 'attack-on-titan-final-season',
+    rating: '9.05',
+    type: 'TV',
+    status: 'Completed',
+    released_year: '2023',
+    latest_episode: '28',
+    episodes_count: 28,
+    poster_url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'Kimetsu no Yaiba: Hashira Geiko-hen',
+    slug: 'kimetsu-no-yaiba-hashira-geiko-hen',
+    rating: '8.34',
+    type: 'TV',
+    status: 'Completed',
+    released_year: '2024',
+    latest_episode: '8',
+    episodes_count: 8,
+    poster_url: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'Bocchi the Rock!',
+    slug: 'bocchi-the-rock',
+    rating: '8.80',
+    type: 'TV',
+    status: 'Completed',
+    released_year: '2022',
+    latest_episode: '12',
+    episodes_count: 12,
+    poster_url: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80',
+  },
+  {
+    title: 'Cyberpunk: Edgerunners',
+    slug: 'cyberpunk-edgerunners',
+    rating: '8.60',
+    type: 'ONA',
+    status: 'Completed',
+    released_year: '2022',
+    latest_episode: '10',
+    episodes_count: 10,
+    poster_url: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&auto=format&fit=crop&q=80',
+  }
+];
+
+export const MOCK_ANIME_DETAILS = {
+  'solo-leveling-season-2': {
+    title: 'Solo Leveling Season 2: Arise from the Shadow',
+    title_english: 'Solo Leveling: Arise from the Shadow',
+    slug: 'solo-leveling-season-2',
+    rating: '8.95',
+    type: 'TV',
+    status: 'Ongoing',
+    year: '2025',
+    released_year: '2025',
+    studio: 'A-1 Pictures',
+    season: 'Winter 2025',
+    genres: ['Action', 'Fantasy', 'Adventure', 'Super Power'],
+    poster_url: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80',
+    synopsis: 'Sung Jin-woo telah berevolusi dari pemburu terlemah berperingkat E menjadi Shadow Monarch yang disegani di seantero dunia hunter. Kini bayang-bayang ancaman baru dari Gate peringkat S menguji kekuatannya dan pasukan bayangannya yang kian bertambah luas.',
+    episodes: [
+      { slug: 'solo-leveling-season-2-episode-1', stream_slug: 'solo-leveling-season-2-episode-1', number: 1, episode_number: 1, title: 'Episode 1' },
+      { slug: 'solo-leveling-season-2-episode-2', stream_slug: 'solo-leveling-season-2-episode-2', number: 2, episode_number: 2, title: 'Episode 2' },
+      { slug: 'solo-leveling-season-2-episode-3', stream_slug: 'solo-leveling-season-2-episode-3', number: 3, episode_number: 3, title: 'Episode 3' },
+      { slug: 'solo-leveling-season-2-episode-4', stream_slug: 'solo-leveling-season-2-episode-4', number: 4, episode_number: 4, title: 'Episode 4' },
+      { slug: 'solo-leveling-season-2-episode-5', stream_slug: 'solo-leveling-season-2-episode-5', number: 5, episode_number: 5, title: 'Episode 5' },
+      { slug: 'solo-leveling-season-2-episode-6', stream_slug: 'solo-leveling-season-2-episode-6', number: 6, episode_number: 6, title: 'Episode 6' },
+      { slug: 'solo-leveling-season-2-episode-7', stream_slug: 'solo-leveling-season-2-episode-7', number: 7, episode_number: 7, title: 'Episode 7' },
+      { slug: 'solo-leveling-season-2-episode-8', stream_slug: 'solo-leveling-season-2-episode-8', number: 8, episode_number: 8, title: 'Episode 8' },
+    ]
+  },
+  'sousou-no-frieren': {
+    title: 'Sousou no Frieren',
+    title_english: 'Frieren: Beyond Journey\'s End',
+    slug: 'sousou-no-frieren',
+    rating: '9.38',
+    type: 'TV',
+    status: 'Completed',
+    year: '2024',
+    released_year: '2024',
+    studio: 'Madhouse',
+    season: 'Fall 2023',
+    genres: ['Adventure', 'Drama', 'Fantasy'],
+    poster_url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80',
+    synopsis: 'Petualangan sang penyihir elf Frieren setelah sang pahlawan Himmel meninggal dunia, mengarungi kembali tanah-tanah yang pernah disinggahi untuk mencari makna ikatan dan rasa sayang antar manusia.',
+    episodes: [
+      { slug: 'sousou-no-frieren-episode-1', stream_slug: 'sousou-no-frieren-episode-1', number: 1, episode_number: 1, title: 'Episode 1' },
+      { slug: 'sousou-no-frieren-episode-2', stream_slug: 'sousou-no-frieren-episode-2', number: 2, episode_number: 2, title: 'Episode 2' },
+      { slug: 'sousou-no-frieren-episode-3', stream_slug: 'sousou-no-frieren-episode-3', number: 3, episode_number: 3, title: 'Episode 3' },
+    ]
+  }
+};
+
+export const MOCK_STREAM_DATA = {
+  anime: {
+    title: 'Solo Leveling Season 2: Arise from the Shadow',
+    slug: 'solo-leveling-season-2',
+    poster_url: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80',
+  },
+  episode: {
+    number: 1,
+    title: 'Episode 1: You Aren\'t E-Rank, Are You?',
+    slug: 'solo-leveling-season-2-episode-1',
+  },
+  streams: {
+    '720': {
+      available: true,
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      locked: false,
+    },
+    '480': {
+      available: true,
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      locked: false,
+    },
+    '360': {
+      available: true,
+      url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      locked: false,
+    },
+    '1080': {
+      available: false,
+      url: null,
+      locked: true,
+    }
+  },
+  episodes: [
+    { slug: 'solo-leveling-season-2-episode-1', stream_slug: 'solo-leveling-season-2-episode-1', number: 1, episode_number: 1 },
+    { slug: 'solo-leveling-season-2-episode-2', stream_slug: 'solo-leveling-season-2-episode-2', number: 2, episode_number: 2 },
+    { slug: 'solo-leveling-season-2-episode-3', stream_slug: 'solo-leveling-season-2-episode-3', number: 3, episode_number: 3 },
+  ],
+  next_episode: {
+    slug: 'solo-leveling-season-2-episode-2',
+    stream_slug: 'solo-leveling-season-2-episode-2',
+    number: 2,
+    episode_number: 2,
+  },
+  prev_episode: null,
+  downloads: [
+    { quality: '720p', server: 'Google Drive', url: '#' },
+    { quality: '480p', server: 'Mega', url: '#' }
+  ]
+};

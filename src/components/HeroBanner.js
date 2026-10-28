@@ -27,7 +27,7 @@ export default function HeroBanner({ items = [] }) {
   return (
     <div className="relative w-full rounded-2xl overflow-hidden glass-panel border border-violet-900/30 mb-10 shadow-2xl">
       {/* Background Ambience Banner Blur */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden" style={{ position: 'absolute' }}>
         <Image
           src={poster}
           alt={current.title || 'Hero Banner'}
@@ -75,7 +75,7 @@ export default function HeroBanner({ items = [] }) {
             <p className="text-sm text-slate-400 font-medium italic">{current.title_english}</p>
           )}
 
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 text-xs text-slate-300">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 text-xs text-slate-300">
             <span className="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700 font-semibold uppercase">
               {current.type || 'TV'}
             </span>
@@ -87,6 +87,19 @@ export default function HeroBanner({ items = [] }) {
                 Episode Terkini: {current.latest_episode}
               </span>
             )}
+            {/* Genre Pills */}
+            {(() => {
+              const genres = current.genres || current.genre || [];
+              const list = Array.isArray(genres) ? genres : typeof genres === 'string' ? genres.split(',') : [];
+              return list.slice(0, 3).map((g) => (
+                <span
+                  key={g}
+                  className="px-2.5 py-1 rounded-md bg-violet-950/70 border border-violet-800/60 text-violet-300 font-medium"
+                >
+                  {typeof g === 'string' ? g.trim() : g}
+                </span>
+              ));
+            })()}
           </div>
 
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl line-clamp-3">

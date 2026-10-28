@@ -7,8 +7,13 @@ export async function GET(request) {
   const limit = searchParams.get('limit') || '20';
 
   try {
-    const data = await fetchCraftvel(`/services/anime/ongoing?page=${page}&limit=${limit}`);
-    return NextResponse.json(data);
+    const res = await fetchCraftvel(`/v1/anime/ongoing?page=${page}&limit=${limit}`);
+    const d = res?.data || res;
+    return NextResponse.json({
+      items: d.items || (Array.isArray(d) ? d : []),
+      page: d.page || parseInt(page, 10),
+      total: d.total || (d.items ? d.items.length : 0),
+    });
   } catch (error) {
     return NextResponse.json(
       { error: error.message || 'Gagal memuat anime ongoing' },

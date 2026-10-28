@@ -6,7 +6,8 @@ import VideoPlayer from '@/components/VideoPlayer';
 export async function generateMetadata({ params }) {
   const { episodeSlug } = await params;
   try {
-    const stream = await fetchCraftvel(`/services/anime/stream/${episodeSlug}`);
+    const res = await fetchCraftvel(`/v1/anime/episodes/${episodeSlug}/stream`);
+    const stream = res?.data || res;
     const animeTitle = stream.anime?.title || 'Anime';
     const epNum = stream.episode?.number ? `Episode ${stream.episode.number}` : 'Episode';
     return {
@@ -23,7 +24,8 @@ export default async function WatchPage({ params }) {
   let streamData = null;
 
   try {
-    streamData = await fetchCraftvel(`/services/anime/stream/${episodeSlug}`);
+    const res = await fetchCraftvel(`/v1/anime/episodes/${episodeSlug}/stream`);
+    streamData = res?.data || res;
   } catch (error) {
     notFound();
   }

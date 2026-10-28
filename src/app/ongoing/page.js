@@ -14,8 +14,9 @@ export default async function OngoingPage() {
   let ongoingItems = [];
 
   try {
-    const data = await fetchCraftvel('/services/anime/ongoing?page=1&limit=36');
-    ongoingItems = data.items || [];
+    const res = await fetchCraftvel('/v1/anime/ongoing?page=1&limit=36');
+    const d = res?.data || res || {};
+    ongoingItems = d.items || (Array.isArray(d) ? d : []);
   } catch (error) {
     console.error('Error fetching ongoing:', error);
   }

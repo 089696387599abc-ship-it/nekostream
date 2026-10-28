@@ -34,7 +34,7 @@ export default function EnergyBadge() {
 
       {/* Modal Info Energi */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
           <div className="relative w-full max-w-sm glass-dropdown rounded-2xl p-6 border border-violet-900/50 shadow-2xl">
             <button
               onClick={() => setShowModal(false)}

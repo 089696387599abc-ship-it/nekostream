@@ -44,19 +44,29 @@ export default function BookmarksPage() {
 
         {watchedToday.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {watchedToday.map((slug) => (
-              <Link
-                key={slug}
-                href={`/watch/${encodeURIComponent(slug)}`}
-                className="p-3 rounded-xl bg-[#12141f] border border-slate-800 hover:border-violet-500 transition-all flex items-center justify-between"
-              >
-                <div className="truncate">
-                  <div className="text-xs font-semibold text-slate-200 truncate">{slug}</div>
-                  <span className="text-[10px] text-emerald-400 font-medium">Bebas Energi Hari Ini</span>
-                </div>
-                <Play className="w-4 h-4 text-violet-400 shrink-0" />
-              </Link>
-            ))}
+            {watchedToday.map((slug) => {
+              const formattedTitle = slug
+                .replace(/-sub-indo$/i, '')
+                .replace(/-subtitle-indonesia$/i, '')
+                .replace(/-/g, ' ')
+                .replace(/\b\w/g, (c) => c.toUpperCase());
+
+              return (
+                <Link
+                  key={slug}
+                  href={`/watch/${encodeURIComponent(slug)}`}
+                  className="group p-3.5 rounded-xl bg-[#12141f] border border-slate-800 hover:border-violet-500 hover:bg-violet-950/20 transition-all flex items-center justify-between"
+                >
+                  <div className="truncate pr-2">
+                    <div className="text-xs font-semibold text-slate-200 group-hover:text-white truncate">
+                      {formattedTitle}
+                    </div>
+                    <span className="text-[10px] text-emerald-400 font-medium">Bebas Energi Hari Ini • Lanjutkan Menonton</span>
+                  </div>
+                  <Play className="w-4 h-4 text-slate-500 group-hover:text-violet-400 shrink-0 transition-colors" />
+                </Link>
+              );
+            })}
           </div>
         ) : (
           <div className="p-6 text-center text-xs text-slate-500 glass-panel rounded-xl">
